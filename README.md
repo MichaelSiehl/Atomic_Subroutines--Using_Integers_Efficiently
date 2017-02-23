@@ -28,3 +28,30 @@ end type DontUse1<br />
 type (DontUse1), public, parameter :: Enum_ImageActivityFlag &<br />
 &nbsp;&nbsp;&nbsp;&nbsp;= DontUse1 (1000000,2000000,3000000,4000000)<br />
 !____________________________________________________________<br />
+
+Next, we use a simple routine to pack an integer enum value (intEnumValue) with an additional limited-size integer value (intAdditionalValue) into a single scalar integer variable (intPackedEnumValue) just by adding the two values:<br />
+!__________________________________________________________<br />
+! pack an integer ImageActivityFlag-enum value with an additional integer value:<br />
+!**********<br />
+subroutine PackEnumValue_ImageActivityFlag (intEnumValue, intAdditionalValue, intPackedEnumValue)<br />
+&nbsp;&nbsp;! pack the both integer input arguments into a single integer scalar<br />
+&nbsp;&nbsp;integer, intent (in) :: intEnumValue<br />
+&nbsp;&nbsp;integer, intent (in) :: intAdditionalValue<br />
+&nbsp;&nbsp;integer, intent (out) :: intPackedEnumValue<br />
+&nbsp;&nbsp;integer :: intEnum_StepWidth<br />
+&nbsp;&nbsp;!<br />
+&nbsp;&nbsp;! check if the intAdditionalValue argument is to large:<br />
+&nbsp;&nbsp;! (ToDo: check if it is negative)<br />
+&nbsp;&nbsp;intEnum_StepWidth = Enum_ImageActivityFlag % Enum_StepWidth<br />
+&nbsp;&nbsp;if (intAdditionalValue >= intEnum_StepWidth) then<br />
+&nbsp;&nbsp;&nbsp;! the intAdditionalValue argument is too large<br />
+&nbsp;&nbsp;&nbsp;! raise an error<br />
+&nbsp;&nbsp;&nbsp;return<br />
+&nbsp;&nbsp;end if<br />
+&nbsp;&nbsp;!<br />
+&nbsp;&nbsp;! pack the both values:<br />
+&nbsp;&nbsp;intPackedEnumValue = intEnumValue + intAdditionalValue<br />
+&nbsp;&nbsp;!<br />
+end subroutine PackEnumValue_ImageActivityFlag<br />
+!__________________________________________________________<br />
+
