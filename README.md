@@ -12,7 +12,6 @@ To overcome that limitation we use a simple programming technique from the past 
 The following code snippets show that basically.
 
 Firstly, we define an integer-based enumeration using a Fortran 95 enumeration technique (that is explain here: https://github.com/MichaelSiehl/How-to-Code-Enumerations-in-Fortran) with a small modification: The first enum value contains the enum's step width. The example's enum step width value of 1000000 means that we can use an additional integer value up to 999999 to be packed together with the enum value:<br />
-<br />
 !___________________________________________________________<br />
 !<br />
 !*****************************************<br />
