@@ -29,7 +29,8 @@ type (DontUse1), public, parameter :: Enum_ImageActivityFlag &<br />
 &nbsp;&nbsp;&nbsp;&nbsp;= DontUse1 (1000000,2000000,3000000,4000000)<br />
 !____________________________________________________________<br />
 
-Next, we use a simple routine to pack an integer enum value (intEnumValue) with an additional limited-size integer value (intAdditionalValue) into a single scalar integer variable (intPackedEnumValue) just by adding the two values:<br />
+
+Next, we use a simple routine to pack an integer enum value (intEnumValue) with an additional limited-size integer value (intAdditionalValue) into a single scalar integer variable (intPackedEnumValue) just by adding the two values: (the packed integer value will be used with atomic_define later on, not shown here)<br />
 !__________________________________________________________<br />
 ! pack an integer ImageActivityFlag-enum value with an additional integer value:<br />
 !**********<br />
@@ -55,3 +56,24 @@ subroutine PackEnumValue_ImageActivityFlag (intEnumValue, intAdditionalValue, in
 end subroutine PackEnumValue_ImageActivityFlag<br />
 !__________________________________________________________<br />
 
+
+And finally, we need to unpack the packed integer after we've accessed it using atomic_ref (not shown here):<br />
+!__________________________________________________________<br />
+! unpack the packed integer enum value into two integer scalars:<br />
+!***********<br />
+subroutine UnpackEnumValue (intPackedEnumValue, intEnum_StepWidth, &<br />
+&nbsp;&nbsp;&nbsp;&nbsp;intUnpackedEnumValue, intUnpackedAdditionalValue)<br />
+&nbsp;&nbsp;!<br />
+&nbsp;&nbsp;integer, intent (in) :: intPackedEnumValue<br />
+&nbsp;&nbsp;integer, intent (in) :: intEnum_StepWidth<br />
+&nbsp;&nbsp;integer, intent (out) :: intUnpackedEnumValue<br />
+&nbsp;&nbsp;integer, intent (out) :: intUnpackedAdditionalValue<br />
+&nbsp;&nbsp;!<br />
+&nbsp;&nbsp;intUnpackedAdditionalValue = mod(intPackedEnumValue, intEnum_StepWidth)<br />
+&nbsp;&nbsp;!<br />
+&nbsp;&nbsp;intUnpackedEnumValue = intPackedEnumValue - intUnpackedAdditionalValue<br />
+&nbsp;&nbsp;!<br />
+end subroutine UnpackEnumValue<br />
+!<br />
+!**********<br />
+!__________________________________________________________<br />
