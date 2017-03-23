@@ -59,23 +59,25 @@ end subroutine PackEnumValue_ImageActivityFlag
 !__________________________________________________________
 ```
 
-And finally, we need to unpack the packed integer after we've accessed it using atomic_ref (not shown here):<br />
-!__________________________________________________________<br />
-! unpack the packed integer enum value into two integer scalars:<br />
-!***********<br />
-subroutine UnpackEnumValue (intPackedEnumValue, intEnum_StepWidth, &<br />
-&nbsp;&nbsp;&nbsp;&nbsp;intUnpackedEnumValue, intUnpackedAdditionalValue)<br />
-&nbsp;&nbsp;!<br />
-&nbsp;&nbsp;integer, intent (in) :: intPackedEnumValue<br />
-&nbsp;&nbsp;integer, intent (in) :: intEnum_StepWidth<br />
-&nbsp;&nbsp;integer, intent (out) :: intUnpackedEnumValue<br />
-&nbsp;&nbsp;integer, intent (out) :: intUnpackedAdditionalValue<br />
-&nbsp;&nbsp;!<br />
-&nbsp;&nbsp;intUnpackedAdditionalValue = mod(intPackedEnumValue, intEnum_StepWidth)<br />
-&nbsp;&nbsp;!<br />
-&nbsp;&nbsp;intUnpackedEnumValue = intPackedEnumValue - intUnpackedAdditionalValue<br />
-&nbsp;&nbsp;!<br />
-end subroutine UnpackEnumValue<br />
-!<br />
-!**********<br />
-!__________________________________________________________<br />
+And finally, we need to unpack the packed integer after we've accessed it using atomic_ref (not shown here):
+```fortran
+!__________________________________________________________
+! unpack the packed integer enum value into two integer scalars:
+!***********
+subroutine UnpackEnumValue (intPackedEnumValue, intEnum_StepWidth, &
+    intUnpackedEnumValue, intUnpackedAdditionalValue)
+  !
+  integer, intent (in) :: intPackedEnumValue
+  integer, intent (in) :: intEnum_StepWidth
+  integer, intent (out) :: intUnpackedEnumValue
+  integer, intent (out) :: intUnpackedAdditionalValue
+  !
+  intUnpackedAdditionalValue = mod(intPackedEnumValue, intEnum_StepWidth)
+  !
+  intUnpackedEnumValue = intPackedEnumValue - intUnpackedAdditionalValue
+  !
+end subroutine UnpackEnumValue
+!
+!**********
+!__________________________________________________________
+```
