@@ -12,23 +12,24 @@ To overcome that limitation we use a simple programming technique from the past 
 The following code snippets show that basically.
 
 Firstly, we define an integer-based enumeration using a Fortran 95 enumeration technique (that is explain here: https://github.com/MichaelSiehl/How-to-Code-Enumerations-in-Fortran) with a small modification: The first enum value contains the enum's step width. The example's enum step width value of 1000000 means that we can use an additional integer value up to 999999 to be packed together with the enum value:<br />
-!___________________________________________________________<br />
-!<br />
-!*****************************************<br />
-!****  ImageActivityFlag - Enumeration: **<br />
-!*****************************************<br />
-!<br />
-type, private :: DontUse1<br />
-&nbsp;&nbsp;integer :: Enum_StepWidth ! = 1000000<br />
-&nbsp;&nbsp;integer :: InitializeSegmentSynchronization ! = 2000000<br />
-&nbsp;&nbsp;integer :: WaitForSegmentSynchronization ! = 3000000<br />
-&nbsp;&nbsp;integer :: ContinueSegmentSynchronization ! = 4000000<br />
-end type DontUse1<br />
-!<br />
-type (DontUse1), public, parameter :: Enum_ImageActivityFlag &<br />
-&nbsp;&nbsp;&nbsp;&nbsp;= DontUse1 (1000000,2000000,3000000,4000000)<br />
-!____________________________________________________________<br />
-
+```fortran
+!___________________________________________________________
+!
+!*****************************************
+!****  ImageActivityFlag - Enumeration: **
+!*****************************************
+!
+type, private :: DontUse1
+  integer :: Enum_StepWidth ! = 1000000
+  integer :: InitializeSegmentSynchronization ! = 2000000
+  integer :: WaitForSegmentSynchronization ! = 3000000
+  integer :: ContinueSegmentSynchronization ! = 4000000
+end type DontUse1
+!
+type (DontUse1), public, parameter :: Enum_ImageActivityFlag &
+    = DontUse1 (1000000,2000000,3000000,4000000)
+!____________________________________________________________
+```
 
 Next, we use a simple routine to pack an integer enum value (intEnumValue) with an additional limited-size integer value (intAdditionalValue) into a single scalar integer variable (intPackedEnumValue) just by adding the two values: (the packed integer value will be used with atomic_define later on, not shown here)<br />
 !__________________________________________________________<br />
